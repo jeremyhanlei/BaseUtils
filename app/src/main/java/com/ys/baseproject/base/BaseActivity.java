@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.baidu.mapapi.map.Overlay;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.ys.baseproject.net.NetChangeObserver;
 import com.ys.baseproject.net.NetStateReceiver;
@@ -29,6 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private NetChangeObserver mObserver;
 
     public  BaseActivity mContext;
+
 
     public abstract void handleLayoutAndData();
 
@@ -65,13 +67,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void setBaseConfig(){
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         //注解butterknife
         ButterKnife.bind(this);
         //加入activity管理容器
         AppManager.getAppManager().addActivity(this);
         //设置状态栏的颜色 默认是红色
         setStatusBarColor(Color.RED);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         //设置屏幕只能竖直
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
