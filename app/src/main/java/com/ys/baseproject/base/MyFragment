@@ -1,0 +1,98 @@
+**
+* 一个简单的Fragment子类
+* 含有这个Master_Fragment的Activity必须要去 实现 Master_Fragment.OnFragmentInteractionListener
+* 这个接口来处理Fragment与Activity的互动事件
+* 这里强烈建议使用工厂方法Master_Fragment#newInstance
+* 来创造Master_Fragment的实例.
+*/
+public class Master_Fragment extends Fragment {
+    // 名字根据实际需求进行更改
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // 这里的参数只是一个举例可以根据需求更改
+    private String mParam1;
+    private String mParam2;
+
+    private OnFragmentInteractionListener mListener;
+
+    /**
+     * 通过工厂方法来创建Fragment实例
+     * 同时给Fragment来提供参数来使用
+     *
+     * @param param1 参数1.
+     * @param param2 参数2.
+     * @return Master_Fragment的实例.
+     */
+    public static Master_Fragment newInstance(String param1, String param2) {
+        Master_Fragment fragment = new Master_Fragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public Master_Fragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_master_, container, false);
+    }
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+
+    /**
+     *onAttach中连接监听接口 确保Activity支持该接口
+     */
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    /**
+     * onDetach中注销接口
+     */
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * 这个互动接口必须被含有Master_Fragment 的Activity继承
+     * 来实现Fragment与Activity直接的互通
+     * 更多信息请参考
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> .
+     */
+    public interface OnFragmentInteractionListener {
+        // 根据实际需求更改
+        public void onFragmentInteraction(Uri uri);
+    }
+
+}
